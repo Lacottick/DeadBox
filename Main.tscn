@@ -1,0 +1,98 @@
+[gd_scene load_steps=13 format=3 uid="uid://jm2erkwjmpnn"]
+
+[ext_resource type="PackedScene" uid="uid://c4yn4mh2krrhb" path="res://Player.tscn" id="2_as7uv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hhiga"]
+sky_top_color = Color(0.171234, 0.406452, 1, 1)
+sky_horizon_color = Color(0.730302, 0.773158, 0.903256, 1)
+ground_bottom_color = Color(0.749974, 0.686179, 0.613025, 1)
+ground_horizon_color = Color(0.730302, 0.773158, 0.903256, 1)
+
+[sub_resource type="Sky" id="Sky_frsp6"]
+sky_material = SubResource("ProceduralSkyMaterial_hhiga")
+
+[sub_resource type="Environment" id="Environment_v4qxa"]
+background_mode = 2
+sky = SubResource("Sky_frsp6")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wdwtm"]
+rough = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_rhipu"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ds30"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_noamr"]
+friction = 0.7
+rough = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cfk64"]
+albedo_color = Color(1, 0.431373, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cgj1p"]
+material = SubResource("StandardMaterial3D_cfk64")
+size = Vector3(5, 10, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ey07i"]
+size = Vector3(5, 10, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_e4foo"]
+font_size = 64
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v4qxa")
+
+[node name="Player" parent="." instance=ExtResource("2_as7uv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66397, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.694068, 0.719909, 0, -0.719909, -0.694068, 0, 15.5139, -21.7528)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_wdwtm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+gi_mode = 2
+mesh = SubResource("BoxMesh_rhipu")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_1ds30")
+
+[node name="Box" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.2681, -13.4826)
+mass = 5.0
+physics_material_override = SubResource("PhysicsMaterial_noamr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box"]
+gi_mode = 2
+mesh = SubResource("BoxMesh_cgj1p")
+skeleton = NodePath("../../StaticBody3D/MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box"]
+shape = SubResource("BoxShape3D_ey07i")
+
+[node name="UI" type="CanvasLayer" parent="." groups=["ui"]]
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AmmoLabel" type="Label" parent="UI/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "ammo/max_ammo"
+label_settings = SubResource("LabelSettings_e4foo")

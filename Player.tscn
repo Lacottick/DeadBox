@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4yn4mh2krrhb"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_e7hkf"]
+[ext_resource type="PackedScene" uid="uid://biqvdohtufd3q" path="res://Gun.tscn" id="3_gb7rb"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a1men"]
+
+[node name="Node" type="CharacterBody3D"]
+script = ExtResource("1_e7hkf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_a1men")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="Gun" parent="Camera3D" instance=ExtResource("3_gb7rb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.25, -0.5)
+skeleton = NodePath("../..")

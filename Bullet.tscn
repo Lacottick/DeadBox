@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cf6sj1m7wxpw0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cvavx"]
+bounce = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2x823"]
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8r0m"]
+albedo_color = Color(0, 0.364706, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_cfa6j"]
+material = SubResource("StandardMaterial3D_l8r0m")
+radius = 0.1
+height = 0.2
+
+[node name="Bullet" type="RigidBody3D"]
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_cvavx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_2x823")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("SphereMesh_cfa6j")
